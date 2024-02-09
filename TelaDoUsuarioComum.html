@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Administrativa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav {
+            float: left;
+            width: 20%;
+            background-color: #555;
+            height: calc(100vh - 60px);
+            padding-top: 20px;
+        }
+
+        nav a {
+            display: block;
+            color: #fff;
+            padding: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid #777;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #777;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #555;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            left: 0;
+            top: 100%;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        .dropdown .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            display: block;
+            text-decoration: none;
+            border-bottom: 1px solid #777;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            z-index: 1;
+        }
+
+        .submenu a {
+            display: block;
+            white-space: nowrap;
+        }
+
+        .dropdown.active .submenu.active {
+            display: block;
+            top: 0;
+            left: 100%;
+        }
+
+        .dropdown .dropdown-content a:hover {
+            background-color: #777;
+        }
+
+
+.submenu.financeiro {
+    background-color: #555;
+}
+
+.submenu.financeiro a {
+    background-color: #444;
+}
+
+.submenu.rh {
+    background-color: #555;
+}
+
+.submenu.rh a {
+    background-color: #444;
+}
+
+.administracao-btn {
+    height: 20px;
+    width: 150px;
+    line-height: normal;
+    box-sizing: content-box;
+}
+
+.submenu.administracao {
+    margin-left: 0px;
+    margin-top: 45px;
+    background-color: #555;
+}
+
+.submenu.administracao a {
+    background-color: #444;
+}
+
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Área Administrativa</h1>
+    </header>
+
+    <nav>
+        <a href="#">Opção 1</a>
+        <a href="#">Opção 2</a>
+        <a href="#">Opção 3</a>
+
+        <div class="dropdown" onclick="toggleDropdown(event)">
+            <a href="#" class="dropdown-toggle">Serviços &#9662;</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="toggleSubMenu(event, 'financeiro')">Financeiro &#9662;</a>
+                <div class="submenu financeiro">
+                    <a href="#">Contas a Pagar</a>
+                    <a href="#">Contas a Receber</a>
+                </div>
+
+                <a href="#" onclick="toggleSubMenu(event, 'administracao')" class="administracao-btn">Administração &#9662;</a>
+                <div class="submenu administracao">
+                    <a href="#" onclick="toggleSubMenu(event, 'rh')">RH</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h2>Bem-vindo, usuário teste!</h2>
+        <!-- Conteúdo da página principal aqui -->
+    </main>
+
+    <script>
+        function toggleDropdown(event) {
+            var dropdown = event.currentTarget;
+
+            
+            var dropdowns = document.querySelectorAll(".dropdown");
+            dropdowns.forEach(function (otherDropdown) {
+                if (otherDropdown !== dropdown) {
+                    otherDropdown.classList.remove("active");
+                }
+            });
+
+            
+            dropdown.classList.toggle("active");
+        }
+
+        function toggleSubMenu(event, submenuClass) {
+            event.stopPropagation();
+
+            
+            var submenus = document.querySelectorAll(".submenu");
+            submenus.forEach(function (submenu) {
+                submenu.classList.remove("active");
+            });
+
+            
+            var currentSubMenu = document.querySelector("." + submenuClass);
+            if (currentSubMenu) {
+                currentSubMenu.classList.toggle("active");
+            }
+        }
+
+    
+        document.addEventListener("click", function (event) {
+            var dropdowns = document.querySelectorAll(".dropdown");
+            dropdowns.forEach(function (dropdown) {
+                if (!dropdown.contains(event.target)) {
+                    dropdown.classList.remove("active");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

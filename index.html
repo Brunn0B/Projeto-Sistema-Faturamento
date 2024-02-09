@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:rgba(0,24,30,255);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-image: url('IMG/Backgraud escuro.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow-y: hidden;
+        }
+
+        @media (max-width: 480px) {
+            
+            body {
+                background-size: cover;
+                background-attachment: fixed;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        .container {
+            background-color: rgb(9, 42, 50);
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #c8c7c7;
+            margin-top: 0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color:  #c8c7c7;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #292525;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button[type="submit"],
+        button.botao-entrar {
+            background-color:rgba(19,55,72,255);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover,
+        button.botao-entrar:hover {
+            background-color:rgba(28,53,57,255);
+        }
+
+    </style>
+</head>
+
+<body class="background">
+    <div class="container">
+        <img src="IMG/m3.png" alt="Logo" style="max-width: 50%; height: auto;">
+        <h1>Fazer Login</h1>
+
+        <form id="loginForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required><br>
+
+            <button class="botao-entrar" type="button" onclick="fazerLogin()">Entrar</button>
+        </form>
+    </div>
+
+    <script src="usuarios.js"></script>
+    <script>
+   function fazerLogin() {
+    var nome = document.getElementById('nome').value;
+    var email = document.getElementById('email').value;
+    var senha = document.getElementById('senha').value;
+
+    console.log('Tentativa de login:');
+    console.log('Nome:', nome);
+    console.log('Email:', email);
+    console.log('Senha:', senha);
+
+    if (!nome || !senha) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+    }
+
+    // Convertendo ambas as senhas para minúsculas antes de comparar
+    var senhaMinuscula = senha.toLowerCase();
+
+    // Verifica se é um usuário comum
+    if (usuarios[nome] && usuarios[nome].email.toLowerCase() === email.toLowerCase() && usuarios[nome].senha.toLowerCase() === senhaMinuscula) {
+        console.log('Login bem-sucedido como usuário comum!');
+        alert('Login bem-sucedido como usuário comum!');
+        window.location.href = '/TelaDoUsuarioComum.html'; 
+    } else {
+        // Verifica se é um administrador
+        var isAdmin = false;
+        for (var adminKey in admins) {
+            if (admins.hasOwnProperty(adminKey) && admins[adminKey].email.toLowerCase() === email.toLowerCase() && admins[adminKey].senha.toLowerCase() === senhaMinuscula) {
+                isAdmin = true;
+                break;
+            }
+        }
+
+        if (isAdmin) {
+            console.log('Login bem-sucedido como administrador!');
+            alert('Login bem-sucedido como administrador!');
+            window.location.href = '/TelaDoAdministrador.html';
+        } else {
+            console.log('Credenciais inválidas. Tente novamente.');
+            alert('Credenciais inválidas. Tente novamente.');
+        }
+    }
+}
+
+//Loguin funfando nao mecher nessa disgraça
+
+    </script>
+</body>
+
+</html>
