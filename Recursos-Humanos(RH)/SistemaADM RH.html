@@ -177,7 +177,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Dados da tabela aqui -->
+            
             </tbody>
         </table>
     </section>
@@ -185,10 +185,10 @@
     <section id="relatorios">
         <h2>Relatórios</h2>
         <div id="reports">
-            <!-- Área de relatórios aqui -->
+            <div id="reportContent"></div>
         </div>
-        <button onclick="generateReports()">Gerar Relatório e PDF</button>
-
+        <button onclick="generateReports()">Gerar Relatório</button>
+        <button onclick="saveAsPDF()">Salvar como PDF</button>
     </section>
 
 
@@ -227,15 +227,15 @@
             cell6.innerHTML = salary;
             cell7.innerHTML = paymentMethod;
 
-// Verifica se foi selecionada uma foto
+
 if (formData.get('photo')) {
-    // Obtém o nome do arquivo da foto
+    
     var photoName = formData.get('photo').name;
 
-    // Constrói o caminho da imagem corretamente
-    var imagePath = 'IMG/' + encodeURIComponent(photoName);
+    
+    var imagePath = '/IMG/' + encodeURIComponent(photoName);
 
-    // Exibe a foto na célula
+    
     var imageElement = new Image();
     imageElement.src = imagePath;
     imageElement.alt = "Foto do Funcionário";
@@ -254,18 +254,45 @@ if (formData.get('photo')) {
     </script>
 
 <script>
-function generateReports() {
+    function generateReports() {
+        var table = document.getElementById('employeeTable');
+        var numRows = table.rows.length - 1;
+
+        var totalSalary = 0;
+        var maxSalary = 0;
+        var minSalary = Number.MAX_SAFE_INTEGER;
+        for (var i = 1; i <= numRows; i++) {
+            var salary = parseFloat(table.rows[i].cells[5].innerHTML);
+            totalSalary += salary;
+
+            if (salary > maxSalary) {
+                maxSalary = salary;
+            }
+            if (salary < minSalary) {
+                minSalary = salary;
+            }
+        }
+
+        var averageSalary = totalSalary / numRows;
+
+        var reportContent = document.getElementById('reportContent');
+        reportContent.innerHTML = '<h3>Relatório Executivo de RH</h3>' +
+                                  '<p>Número total de funcionários: ' + numRows + '</p>' +
+                                  '<p>Média salarial: R$ ' + averageSalary.toFixed(2) + '</p>' +
+                                  '<p>Salário máximo: R$ ' + maxSalary.toFixed(2) + '</p>' +
+                                  '<p>Salário mínimo: R$ ' + minSalary.toFixed(2) + '</p>';
+    }
+    function saveAsPDF() {
     var table = document.getElementById('employeeTable');
-    var numRows = table.rows.length - 1; // Desconta a linha de cabeçalho
+    var numRows = table.rows.length - 1;
 
     var totalSalary = 0;
     var maxSalary = 0;
     var minSalary = Number.MAX_SAFE_INTEGER;
     for (var i = 1; i <= numRows; i++) {
-        var salary = parseFloat(table.rows[i].cells[5].innerHTML); // Coluna do salário
+        var salary = parseFloat(table.rows[i].cells[5].innerHTML);
         totalSalary += salary;
 
-        // Calcula salário máximo e mínimo
         if (salary > maxSalary) {
             maxSalary = salary;
         }
@@ -277,7 +304,7 @@ function generateReports() {
     var averageSalary = totalSalary / numRows;
 
     // Corrigir a criação do objeto jsPDF
-    var pdf = new window.jspdf.jsPDF(); // Use window.jspdf.jsPDF()
+    var pdf = new window.jspdf.jsPDF();
 
     // Adiciona conteúdo ao PDF com estilos aprimorados
     pdf.setFont('helvetica', 'bold');

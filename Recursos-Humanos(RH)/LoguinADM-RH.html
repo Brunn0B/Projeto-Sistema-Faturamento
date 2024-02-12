@@ -120,17 +120,16 @@
         return;
     }
 
-    // Verifica se é um administrador
     for (var adminKey in admins) {
         if (admins.hasOwnProperty(adminKey) && admins[adminKey].email === email && admins[adminKey].senha === senha) {
             console.log('Login bem-sucedido como administrador!');
             alert('Login bem-sucedido como administrador!');
             window.location.href = '/Recursos-Humanos(RH)/SistemaADM RH.html';
-            return; // Adicionado para sair da função se encontrar um administrador
+            return;
         }
     }
 
-    // Se não encontrou um administrador, exibe mensagem de credenciais inválidas
+
     console.log('Credenciais inválidas. Tente novamente.');
     alert('Credenciais inválidas. Tente novamente.');
 }
