@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
@@ -130,45 +130,42 @@
     <section id="cadastro">
         <h2>Cadastro de Funcionário</h2>
         <form id="employeeForm" enctype="multipart/form-data">
-            <label for="firstName">Nome:</label>
-            <input type="text" id="firstName" name="firstName" required>
+            <label for="PrimeiroNome">Nome:</label>
+            <input type="text" id="PrimeiroNome" name="PrimeiroNome" required>
 
-            <label for="lastName">Sobrenome:</label>
-            <input type="text" id="lastName" name="lastName" required>
+            <label for="Sobrenome">Sobrenome:</label>
+            <input type="text" id="Sobrenome" name="Sobrenome" required>
 
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="Email">E-mail:</label>
+            <input type="email" id="Email" name="Email" required>
 
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf" required>
+            <label for="CPF">CPF:</label>
+            <input type="text" id="CPF" name="CPF" required>
 
-            <label for="rg">RG:</label>
-            <input type="text" id="rg" name="rg" required>
+            <label for="RG">RG:</label>
+            <input type="text" id="RG" name="RG" required>
 
-            <label for="position">Cargo:</label>
-            <input type="text" id="position" name="position" required>
+            <label for="Cargo">Cargo:</label>
+            <input type="text" id="Cargo" name="Cargo" required>
             
-            <label for="role">Função:</label>
-            <input type="text" id="role" name="role" required>
+            <label for="Funcao">Função:</label>
+            <input type="text" id="Funcao" name="Funcao" required>
             
-            <label for="hierarchy">Grau Hierárquico:</label>
-            <input type="text" id="hierarchy" name="hierarchy" required>
+            <label for="Hierarquia">Grau Hierárquico:</label>
+            <input type="text" id="Hierarquia" name="Hierarquia" required>
 
-            <label for="salary">Salário:</label>
-            <input type="number" id="salary" name="salary" required>
+            <label for="Salario">Salário:</label>
+            <input type="number" id="Salario" name="Salario" required>
 
-            <label for="paymentMethod">Método de Pagamento:</label>
-            <select id="paymentMethod" name="paymentMethod" required>
-                <option value="bankTransfer">Transferência Bancária</option>
-                <option value="check">Cheque</option>
-                <option value="cash">Dinheiro</option>
+            <label for="MetodoPagamento">Método de Pagamento:</label>
+            <select id="MetodoPagamento" name="MetodoPagamento" required>
+                <option value="TransferenciaBancaria">Transferência Bancária</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Dinheiro">Dinheiro</option>
             </select>
 
-            <label for="photo">Foto:</label>
-            <input type="file" id="photo" name="photo">
-
-       
-
+            <label for="Foto">Foto:</label>
+            <input type="file" id="Foto" name="Foto">
 
             <button type="button" onclick="submitForm()">Cadastrar</button>
         </form>
@@ -208,199 +205,204 @@
         <button onclick="saveAsPDF()">Salvar como PDF</button>
     </section>
 
-
-
-    
-
     <script>
-function submitForm() {
-    var formData = new FormData(document.getElementById('employeeForm'));
-    var firstName = document.getElementById('firstName').value;
-    var lastName = document.getElementById('lastName').value;
-    var email = document.getElementById('email').value;
-    var cpf = document.getElementById('cpf').value;
-    var rg = document.getElementById('rg').value;
-    var position = document.getElementById('position').value;
-    var role = document.getElementById('role').value;
-    var hierarchy = document.getElementById('hierarchy').value;
-    var salary = document.getElementById('salary').value;
-    var paymentMethod = document.getElementById('paymentMethod').value;
-
-    // Exemplo de adição à tabela (simulado)
-    var table = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
-    var newRow = table.insertRow(table.rows.length);
-    var cell1 = newRow.insertCell(0);
-    var cell2 = newRow.insertCell(1);
-    var cell3 = newRow.insertCell(2);
-    var cell4 = newRow.insertCell(3);
-    var cell5 = newRow.insertCell(4);
-    var cell6 = newRow.insertCell(5);
-    var cell7 = newRow.insertCell(6);
-    var cell8 = newRow.insertCell(7);
-    var cell9 = newRow.insertCell(8);
-    var cell10 = newRow.insertCell(9);
-    var cell11 = newRow.insertCell(10);
-    var cell12 = newRow.insertCell(11);
-
-    cell1.innerHTML = firstName;
-    cell2.innerHTML = lastName;
-    cell3.innerHTML = email;
-    cell4.innerHTML = cpf;
-    cell5.innerHTML = rg;
-    cell6.innerHTML = position;  // Cargo
-    cell7.innerHTML = role;  // Função
-    cell8.innerHTML = hierarchy;  // Hierarquia
-    cell9.innerHTML = salary;
-    cell10.innerHTML = paymentMethod;
-
-    // Adiciona a célula da foto
-    cell11.innerHTML = '';
-    if (formData.get('photo')) {
-        var photoName = formData.get('photo').name;
-        var imagePath = '/IMG/FotosFuncionariosRH.IMG/' + encodeURIComponent(photoName);
-
-        var imageElement = new Image();
-        imageElement.src = imagePath;
-        imageElement.alt = "Foto do Funcionário";
-
-        // Adiciona a imagem à célula com um estilo para limitar as dimensões
-        imageElement.style.maxWidth = '100px'; // Aumentei para 50px
-        imageElement.style.maxHeight = '100px'; // Aumentei para 50px
-        cell11.appendChild(imageElement);
-    } else {
-        cell11.innerHTML = 'N/A';
-    }
-
-    cell12.innerHTML = '<button onclick="removeEmployee(this)">Remover</button>';
-}
-
+        function submitForm() {
+            var formData = new FormData(document.getElementById('employeeForm'));
+            var nome = document.getElementById('PrimeiroNome').value;
+            var sobrenome = document.getElementById('Sobrenome').value;
+            var email = document.getElementById('Email').value;
+            var cpf = document.getElementById('CPF').value;
+            var rg = document.getElementById('RG').value;
+            var cargo = document.getElementById('Cargo').value;
+            var funcao = document.getElementById('Funcao').value;
+            var hierarquia = document.getElementById('Hierarquia').value;
+            var salario = document.getElementById('Salario').value;
+            var metodoPagamento = document.getElementById('MetodoPagamento').value;
+        
+            var tabela = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
+            var novaLinha = tabela.insertRow(tabela.rows.length);
+            var celula1 = novaLinha.insertCell(0);
+            var celula2 = novaLinha.insertCell(1);
+            var celula3 = novaLinha.insertCell(2);
+            var celula4 = novaLinha.insertCell(3);
+            var celula5 = novaLinha.insertCell(4);
+            var celula6 = novaLinha.insertCell(5);
+            var celula7 = novaLinha.insertCell(6);
+            var celula8 = novaLinha.insertCell(7);
+            var celula9 = novaLinha.insertCell(8);
+            var celula10 = novaLinha.insertCell(9);
+            var celula11 = novaLinha.insertCell(10);
+            var celula12 = novaLinha.insertCell(11);
+        
+            celula1.innerHTML = nome;
+            celula2.innerHTML = sobrenome;
+            celula3.innerHTML = email;
+            celula4.innerHTML = cpf;
+            celula5.innerHTML = rg;
+            celula6.innerHTML = cargo;
+            celula7.innerHTML = funcao;
+            celula8.innerHTML = hierarquia;
+            celula9.innerHTML = salario;
+            celula10.innerHTML = metodoPagamento;
+        
+            celula11.innerHTML = '';
+            if (formData.get('Foto')) {
+                var photoName = formData.get('Foto').name;
+                var imagePath = '/IMG/FotosFuncionariosRH.IMG/' + encodeURIComponent(photoName);
+        
+                var imageElement = new Image();
+                imageElement.src = imagePath;
+                imageElement.alt = "Foto do Funcionário";
+        
+                imageElement.style.maxWidth = '100px';
+                imageElement.style.maxHeight = '100px';
+                celula11.appendChild(imageElement);
+            } else {
+                celula11.innerHTML = 'N/A';
+            }
+        
+            celula12.innerHTML = '<button onclick="removeEmployee(this)">Remover</button>';
+        }
+        
         function removeEmployee(button) {
             var row = button.parentNode.parentNode;
             row.parentNode.removeChild(row);
         }
-    </script>
-
-<script>
-   function generateReports() {
-    var table = document.getElementById('employeeTable');
-    var numRows = table.rows.length - 1;
-
-    if (numRows === 0) {
-        var reportContent = document.getElementById('reportContent');
-        reportContent.innerHTML = '<h3>Relatório Executivo de RH</h3>' +
-            '<p>Número total de funcionários: 0</p>' +
-            '<p>Média salarial: R$ 0.00</p>' +
-            '<p>Salário máximo: R$ 0.00</p>' +
-            '<p>Salário mínimo: R$ 0.00</p>';
-        return;
-    }
-
-    var totalSalary = 0;
-    var maxSalary = 0;
-    var minSalary = Number.MAX_SAFE_INTEGER;
-
-    for (var i = 1; i <= numRows; i++) {
-        var salary = parseFloat(table.rows[i].cells[8].innerHTML);
-        totalSalary += salary;
-
-        if (!isNaN(salary)) {
-            if (salary > maxSalary) {
-                maxSalary = salary;
+        </script>
+        
+        <script>
+        function generateReports() {
+            var table = document.getElementById('employeeTable');
+            var numRows = table.rows.length - 1;
+        
+            if (numRows === 0) {
+                var reportContent = document.getElementById('reportContent');
+                reportContent.innerHTML = '<h3>Relatório Executivo de RH</h3>' +
+                    '<p>Número total de funcionários: 0</p>' +
+                    '<p>Média salarial: R$ 0,00</p>' +
+                    '<p>Salário máximo: R$ 0,00</p>' +
+                    '<p>Salário mínimo: R$ 0,00</p>';
+                return;
             }
-            if (salary < minSalary) {
-                minSalary = salary;
+        
+            var totalSalary = 0;
+            var maxSalary = 0;
+            var minSalary = Number.MAX_SAFE_INTEGER;
+        
+            for (var i = 1; i <= numRows; i++) {
+                var salary = parseFloat(table.rows[i].cells[8].innerHTML);
+                totalSalary += salary;
+        
+                if (!isNaN(salary)) {
+                    if (salary > maxSalary) {
+                        maxSalary = salary;
+                    }
+                    if (salary < minSalary) {
+                        minSalary = salary;
+                    }
+                }
             }
+        
+            var averageSalary = totalSalary / numRows;
+        
+            var reportContent = document.getElementById('reportContent');
+            reportContent.innerHTML = '<h3>Relatório Executivo de RH</h3>' +
+                '<p>Número total de funcionários: ' + numRows + '</p>' +
+                '<p>Média salarial: R$ ' + (isNaN(averageSalary) ? '0,00' : averageSalary.toFixed(2).replace('.', ',')) + '</p>' +
+                '<p>Salário máximo: R$ ' + (isNaN(maxSalary) ? '0,00' : maxSalary.toFixed(2).replace('.', ',')) + '</p>' +
+                '<p>Salário mínimo: R$ ' + (isNaN(minSalary) ? '0,00' : minSalary.toFixed(2).replace('.', ',')) + '</p>';
         }
-    }
-
-    var averageSalary = totalSalary / numRows;
-
-    var reportContent = document.getElementById('reportContent');
-    reportContent.innerHTML = '<h3>Relatório Executivo de RH</h3>' +
-        '<p>Número total de funcionários: ' + numRows + '</p>' +
-        '<p>Média salarial: R$ ' + (isNaN(averageSalary) ? 0 : averageSalary.toFixed(2)) + '</p>' +
-        '<p>Salário máximo: R$ ' + (isNaN(maxSalary) ? 0 : maxSalary.toFixed(2)) + '</p>' +
-        '<p>Salário mínimo: R$ ' + (isNaN(minSalary) ? 0 : minSalary.toFixed(2)) + '</p>';
-}
-function saveAsPDF() {
+        
+        function saveAsPDF() {
     var table = document.getElementById('employeeTable');
     var numRows = table.rows.length - 1;
 
-    var pdf = new window.jspdf.jsPDF();
+    // Configurando o PDF no modo paisagem (horizontal)
+    var pdf = new window.jspdf.jsPDF({ orientation: 'landscape' });
 
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(18);
     pdf.text('Relatório Executivo de RH', 20, 15);
-
-    if (numRows === 0) {
-        pdf.text('Relatório Geral', 20, 30);
-        pdf.text('Número total de funcionários: 0', 20, 45);
-        pdf.text('Média salarial: R$ 0.00', 20, 60);
-        pdf.text('Salário máximo: R$ 0.00', 20, 75);
-        pdf.text('Salário mínimo: R$ 0.00', 20, 90);
-    } else {
-        var rowDataArray = [];
-
-        for (var i = 1; i <= numRows; i++) {
-            var rowData = [];
-            for (var j = 0; j < table.rows[i].cells.length - 1; j++) {
-                rowData.push(table.rows[i].cells[j].innerHTML);
-            }
-            rowDataArray.push(rowData);
-        }
-
-        // Adiciona o relatório geral antes da lista de funcionários
-        var totalSalary = 0;
-        var maxSalary = 0;
-        var minSalary = Number.MAX_SAFE_INTEGER;
-
-        for (var i = 1; i <= numRows; i++) {
-            var salary = parseFloat(rowDataArray[i - 1][8]);
-            totalSalary += salary;
-
-            if (!isNaN(salary)) {
-                if (salary > maxSalary) {
-                    maxSalary = salary;
+        
+            if (numRows === 0) {
+                pdf.text('Relatório Geral', 20, 30);
+                pdf.text('Número total de funcionários: 0', 20, 45);
+                pdf.text('Média salarial: R$ 0,00', 20, 60);
+                pdf.text('Salário máximo: R$ 0,00', 20, 75);
+                pdf.text('Salário mínimo: R$ 0,00', 20, 90);
+            } else {
+                var rowDataArray = [];
+        
+                for (var i = 1; i <= numRows; i++) {
+                    var rowData = [];
+                    for (var j = 0; j < table.rows[i].cells.length - 1; j++) {
+                        rowData.push(table.rows[i].cells[j].innerHTML);
+                    }
+                    rowDataArray.push(rowData);
                 }
-                if (salary < minSalary) {
-                    minSalary = salary;
+        
+                // Adiciona o relatório geral antes da lista de funcionários
+                var totalSalary = 0;
+                var maxSalary = 0;
+                var minSalary = Number.MAX_SAFE_INTEGER;
+        
+                for (var i = 1; i <= numRows; i++) {
+                    var salary = parseFloat(rowDataArray[i - 1][8].replace(',', '.'));
+                    totalSalary += salary;
+        
+                    if (!isNaN(salary)) {
+                        if (salary > maxSalary) {
+                            maxSalary = salary;
+                        }
+                        if (salary < minSalary) {
+                            minSalary = salary;
+                        }
+                    }
+                }
+        
+                var averageSalary = totalSalary / numRows;
+        
+                pdf.text('Relatório Geral', 20, 30);
+                pdf.text('Número total de funcionários: ' + numRows, 20, 45);
+                pdf.text('Média salarial: R$ ' + (isNaN(averageSalary) ? '0,00' : averageSalary.toFixed(2).replace('.', ',')), 20, 60);
+                pdf.text('Salário máximo: R$ ' + (isNaN(maxSalary) ? '0,00' : maxSalary.toFixed(2).replace('.', ',')), 20, 75);
+                pdf.text('Salário mínimo: R$ ' + (isNaN(minSalary) ? '0,00' : minSalary.toFixed(2).replace('.', ',')), 20, 90);
+        
+                // Adiciona a tabela
+                pdf.autoTable({
+    head: [['Nome', 'Sobrenome', 'E-mail', 'CPF', 'RG', 'Cargo', 'Função', 'Grau Hierárquico', 'Salário', 'Método de Pagamento']],
+    body: rowDataArray,
+    theme: 'grid',
+    margin: { top: 110 },
+    columnStyles: {
+        0: { columnWidth: 20 }, // Nome
+        1: { columnWidth: 25 }, //SobreNome
+        2: { columnWidth: 47 }, //email
+        3: { columnWidth: 32 }, //Cpf
+        4: { columnWidth: 32 }, //Rg
+        5: { columnWidth: 25 }, //Cargo
+        6: { columnWidth: 25 }, //Função
+        7: { columnWidth: 22 }, //Grau Hierarquico
+        8: { columnWidth: 20 }, //Salario
+        9: { columnWidth: 26 }, //Meio-pagamento
+    },
+});
+
+        
+                pdf.setFontSize(12);
+        
+                for (var i = 0; i < numRows; i++) {
+                    if (rowDataArray[i][10] !== 'N/A') {
+                        var photoName = rowDataArray[i][10];
+                        var imagePath = '/IMG/FotosFuncionariosRH.IMG/' + encodeURIComponent(photoName);
+        
+                        pdf.addImage(imagePath, 'JPEG', 20, 120 + i * 60, 50, 50);
+                    }
                 }
             }
+        
+            pdf.save('Relatorio_RH.pdf');
         }
-
-        var averageSalary = totalSalary / numRows;
-
-        pdf.text('Relatório Geral', 20, 30);
-        pdf.text('Número total de funcionários: ' + numRows, 20, 45);
-        pdf.text('Média salarial: R$ ' + (isNaN(averageSalary) ? 0 : averageSalary.toFixed(2)), 20, 60);
-        pdf.text('Salário máximo: R$ ' + (isNaN(maxSalary) ? 0 : maxSalary.toFixed(2)), 20, 75);
-        pdf.text('Salário mínimo: R$ ' + (isNaN(minSalary) ? 0 : minSalary.toFixed(2)), 20, 90);
-
-        // Adiciona a tabela
-        pdf.autoTable({
-            head: [['Nome', 'Sobrenome', 'E-mail', 'CPF', 'RG', 'Cargo', 'Função', 'Grau Hierárquico', 'Salário', 'Método de Pagamento']],
-            body: rowDataArray,
-            theme: 'grid',
-            margin: { top: 110 },
-        });
-
-        pdf.setFontSize(12); // Definir o tamanho da fonte após a chamada autoTable
-
-        for (var i = 0; i < numRows; i++) {
-            if (rowDataArray[i][10] !== 'N/A') {
-                var photoName = rowDataArray[i][10];
-                var imagePath = '/IMG/FotosFuncionariosRH.IMG/' + encodeURIComponent(photoName);
-
-                pdf.addImage(imagePath, 'JPEG', 20, 120 + i * 60, 50, 50);
-            }
-        }
-    }
-
-    pdf.save('Relatorio_RH.pdf');
-}
-
-</script>
-
-
+    </script>
 </body>
 </html>
